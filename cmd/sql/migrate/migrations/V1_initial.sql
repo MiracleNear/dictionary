@@ -1,0 +1,5 @@
+CREATE TABLE IF NOT EXISTS Dictionary (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    word TEXT,
+    definition TEXT
+);
