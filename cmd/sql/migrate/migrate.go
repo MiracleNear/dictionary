@@ -49,7 +49,7 @@ func main() {
 	}
 
 	for _, file := range files {
-		buf, err := os.ReadFile(strings.Join([]string{migrationFilesDir, file.Name()}, "\\"))
+		buf, err := os.ReadFile(strings.Join([]string{migrationFilesDir, file.Name()}, "/"))
 		if err != nil {
 			fmt.Printf("failed migration file %s: %s\n", file.Name(), err.Error())
 			os.Exit(1)
