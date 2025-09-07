@@ -22,7 +22,7 @@ var Instance *sql.DB
 func init() {
 	file, err := os.ReadFile("config/config.json")
 	if err != nil {
-		fmt.Printf("Config not found on path config/config.json: %s\n", err.Error())
+		fmt.Printf("config not found on path config/config.json: %s\n", err.Error())
 		os.Exit(1)
 	}
 

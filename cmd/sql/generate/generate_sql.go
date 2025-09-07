@@ -9,7 +9,7 @@ import (
 	"strings"
 )
 
-const query = "query"
+const query string = "query"
 
 func main() {
 	fset := token.NewFileSet()
@@ -19,7 +19,7 @@ func main() {
 
 	dirEntrys, err := os.ReadDir(query)
 	if err != nil {
-		fmt.Printf("Read dir: %s", err.Error())
+		fmt.Printf("read dir: %s", err.Error())
 		os.Exit(1)
 	}
 
@@ -82,7 +82,7 @@ func main() {
 
 	f, err := os.Create(fmt.Sprintf("%s.go", query))
 	if err != nil {
-		fmt.Printf("Create file: %s\n", err.Error())
+		fmt.Printf("create file: %s\n", err.Error())
 		os.Exit(1)
 	}
 

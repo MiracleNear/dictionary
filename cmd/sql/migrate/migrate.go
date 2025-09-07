@@ -10,7 +10,7 @@ import (
 	_ "rsc.io/sqlite"
 )
 
-const migrationFilesDir = "migrations"
+const migrationFilesDir string = "migrations"
 
 func main() {
 	path := flag.String("path", "", "path to database or path where to create database")
