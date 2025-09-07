@@ -1,4 +1,4 @@
-//go:generate go run ../cmd/sql/generate/generate_sql.go -test=kek
+//go:generate go run ../cmd/sql/generate/generate_sql.go
 package sql
 
 import (

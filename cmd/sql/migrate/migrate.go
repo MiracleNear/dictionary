@@ -10,15 +10,21 @@ import (
 	_ "rsc.io/sqlite"
 )
 
-const empty = ""
+const migrationFilesDir = "migrations"
 
 func main() {
-	path := flag.String("path", empty, "path for database file")
+	path := flag.String("path", "", "path to database or path where to create database")
 	flag.Parse()
 
-	if *path == empty {
+	if *path == "" {
 		fmt.Println("path is required")
 		os.Exit(64)
+	}
+
+	_, err := os.Stat(*path)
+	isNewDb := false
+	if os.IsNotExist(err) {
+		isNewDb = true
 	}
 
 	db, err := sql.Open("sqlite3", *path)
@@ -27,7 +33,7 @@ func main() {
 		os.Exit(65)
 	}
 
-	files, err := os.ReadDir("migrations")
+	files, err := os.ReadDir(migrationFilesDir)
 	if err != nil {
 		fmt.Printf("read dir migrate failed: %s\n", err)
 		os.Exit(1)
@@ -38,17 +44,21 @@ func main() {
 		return
 	}
 
-	file := files[len(files)-1]
-
-	buf, err := os.ReadFile(strings.Join([]string{"migrate", file.Name()}, "\\"))
-	if err != nil {
-		fmt.Printf("failed migration file %s: %s\n", file.Name(), err.Error())
-		os.Exit(1)
+	if !isNewDb {
+		files = files[len(files)-1:]
 	}
 
-	_, err = db.Exec(string(buf))
-	if err != nil {
-		fmt.Printf("failed migration with reason: %s\n", err.Error())
-		os.Exit(1)
+	for _, file := range files {
+		buf, err := os.ReadFile(strings.Join([]string{migrationFilesDir, file.Name()}, "\\"))
+		if err != nil {
+			fmt.Printf("failed migration file %s: %s\n", file.Name(), err.Error())
+			os.Exit(1)
+		}
+
+		_, err = db.Exec(string(buf))
+		if err != nil {
+			fmt.Printf("failed migration with reason: %s\n", err.Error())
+			os.Exit(1)
+		}
 	}
 }
